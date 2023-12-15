@@ -14,6 +14,9 @@ configuration:
   bucket_folder: 
     name: Files prefix
     description: The "folder" where backups are uploaded inside the bucket. It must ends with /
+  delete_if_missing:
+    name: Delete files from bucket if missing locally
+    description: Set if you want to remove files from the bucket if those are missing from the local backup folder.
   storage_class:
     name: Storage Class
     description: Visit https://aws.amazon.com/s3/storage-classes for performance and cost of each class.
