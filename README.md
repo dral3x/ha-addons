@@ -1,4 +1,4 @@
-# Home Assistant Addons: DrAL3X' repository
+# Home Assistant Addons: Alessandro's repository
 
 Add-ons for Home Assistant written by Alessandro Calzavara (DrAL3X).
 
