@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Starting"
+echo "Preparing..."
 aws --version
 
 # Reading config
