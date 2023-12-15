@@ -1,7 +1,7 @@
 name: "Sync Backups on Amazon S3"
 version: "1.0.0"
 slug: "sync-backups-on-s3"
-description: "Sync backups to your Amazon S3 bucket "
+description: "Sync backups to your Amazon S3 bucket"
 url: https://github.com/dral3x/ha-addons/tree/main/sync-backups-s3
 arch:
   - aarch64
