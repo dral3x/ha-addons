@@ -18,9 +18,9 @@ The installation of this add-on is pretty straightforward and no different to in
 
     [![Add add-on repository to my Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fdral3x%2Fha-addons)
 
-2. Click the Home Assistant Show Add-on On My button below to open the add-on on your Home Assistant instance.
+2. Search for this add-on, and click it.
 3. Click the "Install" button to install the add-on.
-4. Enter the Configuration tab to set all missing options.
+4. Enter the Configuration tab, and enter all missing options.
 5. Start the add-on and check the logs for any error.
 
 ## Usage
