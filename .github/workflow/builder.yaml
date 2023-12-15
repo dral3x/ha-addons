@@ -10,7 +10,7 @@ on:
   workflow_call:
   push:
     branches:
-      - master
+      - main
     paths:
       - "**/config.*"
 
