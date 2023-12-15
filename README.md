@@ -1,6 +1,6 @@
 # Home Assistant Addons: DrAL3X' repository
 
-Add-ons for Home Assistant written by Alessandro Calzavara.
+Add-ons for Home Assistant written by Alessandro Calzavara (DrAL3X).
 
 To add this repository, click the "Add Add-on Repository To My" button below to open the add-on on your Home Assistant instance:
 
