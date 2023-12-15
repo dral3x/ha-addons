@@ -25,6 +25,7 @@ if [[ $DELETE == true ]]; then
 fi
 
 echo "Sync started..."
+
 aws s3 sync $SOURCE $DESTINATION $OPTIONS
 
 echo "Sync completed."
