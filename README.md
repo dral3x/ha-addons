@@ -2,7 +2,7 @@
 
 Add-ons for Home Assistant written by Alessandro Calzavara (DrAL3X).
 
-To add this repository, click the "Add Add-on Repository To My" button below to open the add-on on your Home Assistant instance:
+To add this repository, click the button below to open the add-on on your Home Assistant instance:
 
 [![Add add-on repository to my Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fdral3x%2Fha-addons)
 

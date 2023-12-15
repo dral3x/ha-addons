@@ -1,0 +1,19 @@
+configuration:
+  aws_key_id: 
+    name: AWS Access Key
+    description: The access key used to upload files on the bucket.
+  aws_key_secret: 
+    name: AWS Secret Access Key
+    description: The secret used to upload files on the bucket.
+  aws_region: 
+    name: AWS Region
+    description: The region where the bucket has been created.
+  bucket_name: 
+    name: S3 Bucket name
+    description:
+  bucket_folder: 
+    name: Files prefix
+    description: The "folder" where backups are uploaded inside the bucket. It must ends with /
+  storage_class:
+    name: Storage Class
+    description: Visit https://aws.amazon.com/s3/storage-classes for performance and cost of each class.
