@@ -1,0 +1,2 @@
+# name: slug/filename ; could be slug/config.* for all files
+sync-backups-s3: sync-backups-s3/config.* # Image : yes
