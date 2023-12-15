@@ -6,7 +6,6 @@ url: https://github.com/dral3x/ha-addons/tree/main/sync-backups-s3
 arch:
   - aarch64
   - amd64
-  - armv7
 image: "ghcr.io/dral3x/sync-backups-on-s3-{arch}"
 init: false
 boot: manual
