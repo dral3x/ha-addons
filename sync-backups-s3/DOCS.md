@@ -16,8 +16,12 @@ Here's a policy with required permissions:
             "Sid": "AllowAWSS3Sync",
             "Effect": "Allow",
             "Action": [
+                "s3:ListBucket",
+                "s3:GetObject",
                 "s3:PutObject",
-                "s3:ListBucket"
+                "s3:DeleteObject",
+                "s3:ListBucketMultipartUploads",
+                "s3:AbortMultipartUpload"
             ],
             "Resource": [
                 "arn:aws:s3:::YOUR-S3-BUCKET-NAME",

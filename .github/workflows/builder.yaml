@@ -11,8 +11,8 @@ on:
   push:
     branches:
       - main
-    # paths:
-    #   - "**/config.*"
+    paths:
+      - "**/config.*"
 
 jobs:
   check-addon-changes:
