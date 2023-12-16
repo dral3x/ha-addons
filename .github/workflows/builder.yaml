@@ -1,6 +1,3 @@
-# yamllint disable rule:line-length
-# inspired from https://github.com/Poeschl/Hassio-Addons
----
 name: Builder
 
 env:
@@ -10,6 +7,9 @@ env:
 on:
   workflow_call:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
