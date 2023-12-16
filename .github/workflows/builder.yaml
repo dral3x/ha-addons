@@ -4,87 +4,73 @@
 name: Builder
 
 env:
-  BUILD_ARGS: ""
+  BUILD_ARGS: "--test"
+  MONITORED_FILES: "build.json config.json Dockerfile"
 
 on:
   workflow_call:
   push:
     branches:
       - main
-    paths:
-      - "**/config.*"
 
 jobs:
-  check-addon-changes:
+  init:
     runs-on: ubuntu-latest
+    name: Initialize builds
     outputs:
-      changedAddons: ${{ steps.filter.outputs.changes }}
+      changed_addons: ${{ steps.changed_addons.outputs.addons }}
+      changed: ${{ steps.changed_addons.outputs.changed }}
     steps:
-      - name: ↩️ Checkout
-        uses: actions/checkout@v4
+      - name: Check out the repository
+        uses: actions/checkout@v3.5.2
 
-      - name: 📂 Detect changed files
-        uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          filters: .github/paths-filter.yml
-  make-executable:
-    if: ${{ needs.check-addon-changes.outputs.changedAddons != '[]' }}
-    needs: check-addon-changes
-    runs-on: ubuntu-latest
-    strategy: 
-      fail-fast: false
-      matrix:
-        addon: ${{ fromJSON(needs.check-addon-changes.outputs.changedAddons) }}
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-      - name: Make scripts executable
+      - name: Get changed files
+        id: changed_files
+        uses: jitterbit/get-changed-files@v1
+
+      - name: Find add-on directories
+        id: addons
+        uses: home-assistant/actions/helpers/find-addons@master
+
+      - name: Get changed add-ons
+        id: changed_addons
         run: |
-          echo "Starting"
-          git config core.filemode true
-          # shellcheck disable=SC2086,SC2046
-          #git update-index --chmod=+x $(find "$path" -type f -iname "*.sh")
-          chmod u+x $(find "$path" -type f -iname "*.sh") || true
-          #git commit -am "fixing the script permissions..."
-        env: 
-          path: "./${{ matrix.addon }}"
-      - name: Commit if needed
-        uses: EndBug/add-and-commit@v9
-        with:
-          commit: -u
-          message: "GitHub bot : scripts executable"
-          default_author: github_actions
+          declare -a changed_addons
+          for addon in ${{ steps.addons.outputs.addons }}; do
+            if [[ "${{ steps.changed_files.outputs.all }}" =~ $addon ]]; then
+              for file in ${{ env.MONITORED_FILES }}; do
+                  if [[ "${{ steps.changed_files.outputs.all }}" =~ $addon/$file ]]; then
+                    if [[ ! "${changed_addons[@]}" =~ $addon ]]; then
+                      changed_addons+=("\"${addon}\",");
+                    fi
+                  fi
+              done
+            fi
+          done
 
-  lint_config:
-    if: ${{ needs.check-addon-changes.outputs.changedAddons != '[]' }}
-    needs: check-addon-changes
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        addon: ${{ fromJSON(needs.check-addon-changes.outputs.changedAddons) }}
-    steps:
-      - name: ↩️ Checkout
-        uses: actions/checkout@v4
-      - name: 🔎 Run Home Assistant Add-on Lint
-        uses: frenck/action-addon-linter@v2
-        with:
-          path: "./${{ matrix.addon }}"
+          changed=$(echo ${changed_addons[@]} | rev | cut -c 2- | rev)
+
+          if [[ -n ${changed} ]]; then
+            echo "Changed add-ons: $changed";
+            echo "::set-output name=changed::true";
+            echo "::set-output name=addons::[$changed]";
+          else
+            echo "No add-on had any monitored files changed (${{ env.MONITORED_FILES }})";
+          fi
 
   build:
-    if: ${{ needs.check-addon-changes.outputs.changedAddons != '[]' }}
-    needs: [check-addon-changes, make-executable]
+    needs: init
     runs-on: ubuntu-latest
-    environment: CR_PAT
+    if: needs.init.outputs.changed == 'true'
     name: Build ${{ matrix.arch }} ${{ matrix.addon }} add-on
     strategy:
       matrix:
-        addon: ${{ fromJSON(needs.check-addon-changes.outputs.changedAddons) }}
-        arch: ["aarch64", "amd64", "armv7"]
+        addon: ${{ fromJson(needs.init.outputs.changed_addons) }}
+        arch: ["amd64", "armhf", "armv7", "aarch64", "i386"]
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3.5.2
 
       - name: Get information
         id: info
@@ -94,27 +80,21 @@ jobs:
 
       - name: Check if add-on should be built
         id: check
-        env:
-          HEAD: "${{ github.head_ref }}"
         run: |
-          # shellcheck disable=SC2157,SC2086 
           if [[ "${{ steps.info.outputs.architectures }}" =~ ${{ matrix.arch }} ]]; then
-             # shellcheck disable=SC2129
-             echo "build_arch=true" >> $GITHUB_OUTPUT;
-             # shellcheck disable=SC2129
-             echo "image=$(echo ${{ steps.info.outputs.image }} | cut -d'/' -f3)" >> $GITHUB_OUTPUT;
-             if [[ -z "$HEAD" ]] && [[ "${{ github.event_name }}" == "push" ]]; then
-                 # shellcheck disable=SC2129
+             echo "::set-output name=build_arch::true";
+             echo "::set-output name=image::$(echo ${{ steps.info.outputs.image }} | cut -d'/' -f3)";
+             if [[ -z "${{ github.head_ref }}" ]] && [[ "${{ github.event_name }}" == "push" ]]; then
                  echo "BUILD_ARGS=" >> $GITHUB_ENV;
              fi
            else
              echo "${{ matrix.arch }} is not a valid arch for ${{ matrix.addon }}, skipping build";
-             # shellcheck disable=SC2129
-             echo "build_arch=false" >> $GITHUB_OUTPUT;
+             echo "::set-output name=build_arch::false";
           fi
+
       - name: Login to GitHub Container Registry
         if: env.BUILD_ARGS != '--test'
-        uses: docker/login-action@v3.0.0
+        uses: docker/login-action@v2.1.0
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -122,9 +102,7 @@ jobs:
 
       - name: Build ${{ matrix.addon }} add-on
         if: steps.check.outputs.build_arch == 'true'
-        uses: home-assistant/builder@master
-        # env:
-        #   CAS_API_KEY: ${{ secrets.CAS_API_KEY }}
+        uses: home-assistant/builder@2023.03.0
         with:
           args: |
             ${{ env.BUILD_ARGS }} \
