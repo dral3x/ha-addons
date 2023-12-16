@@ -22,7 +22,7 @@ jobs:
       changed: ${{ steps.changed_addons.outputs.changed }}
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4
 
       - name: Get changed files
         id: changed_files
@@ -52,8 +52,10 @@ jobs:
 
           if [[ -n ${changed} ]]; then
             echo "Changed add-ons: $changed";
-            echo "::set-output name=changed::true";
-            echo "::set-output name=addons::[$changed]";
+            #echo "::set-output name=changed::true";
+            echo "changed=true" >> $GITHUB_OUTPUT;
+            #echo "::set-output name=addons::[$changed]";
+            echo "addons=[$changed]" >> $GITHUB_OUTPUT;
           else
             echo "No add-on had any monitored files changed (${{ env.MONITORED_FILES }})";
           fi
@@ -66,11 +68,11 @@ jobs:
     strategy:
       matrix:
         addon: ${{ fromJson(needs.init.outputs.changed_addons) }}
-        arch: ["amd64", "armhf", "armv7", "aarch64", "i386"]
+        arch: ["amd64", "i386", "aarch64", "armv7", "armhf"]
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4
 
       - name: Get information
         id: info
@@ -102,7 +104,7 @@ jobs:
 
       - name: Build ${{ matrix.addon }} add-on
         if: steps.check.outputs.build_arch == 'true'
-        uses: home-assistant/builder@2023.03.0
+        uses: home-assistant/builder@master
         with:
           args: |
             ${{ env.BUILD_ARGS }} \
