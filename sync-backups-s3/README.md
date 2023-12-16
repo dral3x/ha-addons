@@ -1,6 +1,9 @@
 # Home Assistant Add-on: Sync Backups on S3
 
-This add-on is meant to upload HomeAssistant backups to an AWS S3 bucket.
+Upload HomeAssistant backups to an AWS S3 bucket.
+
+![Version](https://img.shields.io/badge/dynamic/json?label=Version&query=%24.version&url=https%3A%2F%2Fraw.githubusercontent.com%2Fdral3x%2Fha-addons%2Fmaster%2Fsync-backups-s3%2Fconfig.json)
+![Arch](https://img.shields.io/badge/dynamic/json?color=success&label=Arch&query=%24.arch&url=https%3A%2F%2Fraw.githubusercontent.com%2Fdral3x%2Fha-addons%2Fmaster%2Fsync-backups-s3%2Fconfig.json)
 
 ## Prerequisites
 
