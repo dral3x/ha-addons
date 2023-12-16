@@ -86,7 +86,7 @@ jobs:
              echo "image=$(echo ${{ steps.info.outputs.image }} | cut -d'/' -f3)" >> $GITHUB_OUTPUT;
              if [[ -z "${{ github.head_ref }}" ]] && [[ "${{ github.event_name }}" == "push" ]]; then
                  echo "BUILD_ARGS=" >> $GITHUB_ENV;
-             elif [[ "${{ github.head_ref }}" == "main" ]]; then
+             elif [[ "${{ github.ref }}" != "main" ]]; then
                  echo "BUILD_ARGS=--test" >> $GITHUB_ENV;
              fi
            else
