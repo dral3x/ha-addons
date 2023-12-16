@@ -5,9 +5,6 @@ configuration:
   aws_key_secret: 
     name: AWS Secret Access Key
     description: The secret used to upload files on the bucket.
-  aws_region: 
-    name: AWS Region
-    description: The region where the bucket has been created.
   bucket_name: 
     name: S3 Bucket name
     description:
