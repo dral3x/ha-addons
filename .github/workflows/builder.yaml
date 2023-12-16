@@ -1,7 +1,7 @@
 name: Builder
 
 env:
-  BUILD_ARGS: "--test"
+  BUILD_ARGS: ""
   MONITORED_FILES: "build.json config.json Dockerfile"
 
 on:
@@ -52,9 +52,7 @@ jobs:
 
           if [[ -n ${changed} ]]; then
             echo "Changed add-ons: $changed";
-            #echo "::set-output name=changed::true";
             echo "changed=true" >> $GITHUB_OUTPUT;
-            #echo "::set-output name=addons::[$changed]";
             echo "addons=[$changed]" >> $GITHUB_OUTPUT;
           else
             echo "No add-on had any monitored files changed (${{ env.MONITORED_FILES }})";
@@ -84,16 +82,13 @@ jobs:
         id: check
         run: |
           if [[ "${{ steps.info.outputs.architectures }}" =~ ${{ matrix.arch }} ]]; then
-             #echo "::set-output name=build_arch::true";
              echo "build_arch=true" >> $GITHUB_OUTPUT;
-             #echo "::set-output name=image::$(echo ${{ steps.info.outputs.image }} | cut -d'/' -f3)";
              echo "image=$(echo ${{ steps.info.outputs.image }} | cut -d'/' -f3)" >> $GITHUB_OUTPUT;
              if [[ -z "${{ github.head_ref }}" ]] && [[ "${{ github.event_name }}" == "push" ]]; then
                  echo "BUILD_ARGS=" >> $GITHUB_ENV;
              fi
            else
              echo "${{ matrix.arch }} is not a valid arch for ${{ matrix.addon }}, skipping build";
-             #echo "::set-output name=build_arch::false";
              echo "build_arch=false" >> $GITHUB_OUTPUT;
           fi
 
