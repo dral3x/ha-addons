@@ -1,14 +1,14 @@
 configuration:
-  aws_key_id: 
-    name: AWS Access Key
+  aws_key_id:
+    name: Access Key ID
     description: The access key used to upload files on the bucket.
-  aws_key_secret: 
-    name: AWS Secret Access Key
+  aws_key_secret:
+    name: Secret Access Key
     description: The secret used to upload files on the bucket.
-  bucket_name: 
+  bucket_name:
     name: S3 Bucket name
     description:
-  bucket_folder: 
+  bucket_folder:
     name: Files prefix
     description: The "folder" where backups are uploaded inside the bucket. It must ends with /
   delete_if_missing:
@@ -17,3 +17,6 @@ configuration:
   storage_class:
     name: Storage Class
     description: Visit https://aws.amazon.com/s3/storage-classes for performance and cost of each class.
+  endpoint_url:
+    name: S3-compatible API endpoint URL
+    description: Leave it empty if you want to use AWS S3 service. Otherwise set it to the endpoint that others S3-compatible services offers (for example DigitalOcean, Backblaze, Wasabi or Cloudflare). Be aware that the URL should start with "https://"

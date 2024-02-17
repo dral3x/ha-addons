@@ -1,35 +1,32 @@
 {
-    "name": "Sync Backups on Amazon S3",
-    "version": "1.0.1",
-    "slug": "sync-backups-on-s3",
-    "description": "Sync backups to your Amazon S3 bucket",
-    "url": "https://github.com/dral3x/ha-addons/tree/main/sync-backups-s3",
-    "arch": [
-        "aarch64", 
-        "amd64"
-    ],
-    "image": "ghcr.io/dral3x/sync-backups-on-s3-{arch}",
-    "init": false,
-    "boot": "manual",
-    "backup": "cold",
-    "hassio_role": "backup",
-    "options": {
-      "aws_key_id": null,
-      "aws_key_secret": null,
-      "bucket_name": null,
-      "bucket_folder": "/",
-      "delete_if_missing": false,
-      "storage_class": "STANDARD_IA"
-    },
-    "schema": {
-      "aws_key_id": "password",
-      "aws_key_secret": "password",
-      "bucket_name": "str",
-      "bucket_folder": "str",
-      "delete_if_missing": "bool",
-      "storage_class": "list(STANDARD|REDUCED_REDUNDANCY|STANDARD_IA|ONEZONE_IA|INTELLIGENT_TIERING|GLACIER|DEEP_ARCHIVE|GLACIER_IR)"
-    },
-    "map": [
-      "backup:rw"
-    ]
+  "name": "Sync Backups on Amazon S3",
+  "version": "1.0.2",
+  "slug": "sync-backups-on-s3",
+  "description": "Sync backups to your Amazon S3 bucket",
+  "url": "https://github.com/dral3x/ha-addons/tree/main/sync-backups-s3",
+  "arch": ["aarch64", "amd64"],
+  "image": "ghcr.io/dral3x/sync-backups-on-s3-{arch}",
+  "init": false,
+  "boot": "manual",
+  "backup": "cold",
+  "hassio_role": "backup",
+  "options": {
+    "aws_key_id": null,
+    "aws_key_secret": null,
+    "bucket_name": null,
+    "bucket_folder": "/",
+    "delete_if_missing": false,
+    "storage_class": "STANDARD_IA",
+    "endpoint_url": ""
+  },
+  "schema": {
+    "aws_key_id": "password",
+    "aws_key_secret": "password",
+    "bucket_name": "str",
+    "bucket_folder": "str",
+    "delete_if_missing": "bool",
+    "storage_class": "list(STANDARD|REDUCED_REDUNDANCY|STANDARD_IA|ONEZONE_IA|INTELLIGENT_TIERING|GLACIER|DEEP_ARCHIVE|GLACIER_IR)",
+    "endpoint_url": "str?"
+  },
+  "map": ["backup:rw"]
 }

@@ -8,10 +8,13 @@ Upload HomeAssistant backups to an AWS S3 bucket.
 ## Prerequisites
 
 In order to use this add-on, you'll need an AWS account with:
+
 - a S3 bucket
 - a IAM user with access to the bucket above.
 
 Be aware about all security implications of managing a AWS account and permissions in general.
+
+This add-on also supports S3-compatible services (like DigitalOcean, Cloudflare, Backblaze, Wazabi and more). You just need to provide credentials and the endpoint URL of those services.
 
 ## Installation
 
@@ -19,7 +22,7 @@ The installation of this add-on is pretty straightforward and no different to in
 
 1. Click the "Add Add-on Repository To My" button below to open the add-on on your Home Assistant instance, or manually add the repository `https://github.com/dral3x/ha-addons` in the Add-on Store.
 
-    [![Add add-on repository to my Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fdral3x%2Fha-addons)
+   [![Add add-on repository to my Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fdral3x%2Fha-addons)
 
 2. Search for this add-on, and click it.
 3. Click the "Install" button to install the add-on.
@@ -51,6 +54,6 @@ action:
 
 At 2AM a new backup will be created, and 15 minutes after that, the upload to s3 will start.
 
-## Credits 
+## Credits
 
 This add-on is based on the work of [hassio-backup-s3](https://github.com/mikebell/hassio-backup-s3) and several other forks.

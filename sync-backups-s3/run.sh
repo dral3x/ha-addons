@@ -10,6 +10,7 @@ BUCKET=`jq -r .bucket_name /data/options.json`
 FOLDER=`jq -r .bucket_folder /data/options.json`
 STORAGE_CLASS=`jq -r .storage_class /data/options.json`
 DELETE=`jq -r .delete_if_missing /data/options.json`
+ENDPOINT_URL=`jq -r .endpoint_url /data/options.json`
 
 # Setting up aws cli
 aws configure set aws_access_key_id $KEY
@@ -22,6 +23,9 @@ OPTIONS="--storage-class $STORAGE_CLASS"
 
 if [[ $DELETE == true ]]; then
     OPTIONS+=" --delete"
+fi
+if [[ -n "$ENDPOINT_URL" ]]; then
+    OPTIONS+=" --endpoint=$ENDPOINT_URL"
 fi
 
 echo "Sync started..."
