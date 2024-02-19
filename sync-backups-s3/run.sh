@@ -25,7 +25,7 @@ if [[ $DELETE == true ]]; then
     OPTIONS+=" --delete"
 fi
 if [[ -n "$ENDPOINT_URL" ]]; then
-    OPTIONS+=" --endpoint=$ENDPOINT_URL"
+    OPTIONS+=" --endpoint-url $ENDPOINT_URL"
 fi
 
 echo "Sync started..."
