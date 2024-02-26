@@ -11,6 +11,7 @@ FOLDER=`jq -r .bucket_folder /data/options.json`
 STORAGE_CLASS=`jq -r .storage_class /data/options.json`
 DELETE=`jq -r .delete_if_missing /data/options.json`
 ENDPOINT_URL=`jq -r .endpoint_url /data/options.json`
+DEBUG=`jq -r .debug_mode /data/options.json`
 
 # Setting up aws cli
 aws configure set aws_access_key_id $KEY
@@ -26,6 +27,9 @@ if [[ $DELETE == true ]]; then
 fi
 if [[ -n "$ENDPOINT_URL" ]]; then
     OPTIONS+=" --endpoint-url $ENDPOINT_URL"
+fi
+if [[ $DEBUG == true ]]; then
+    OPTIONS+=" --debug"
 fi
 
 echo "Sync started..."
