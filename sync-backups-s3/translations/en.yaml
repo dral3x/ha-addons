@@ -20,3 +20,6 @@ configuration:
   endpoint_url:
     name: S3-compatible API endpoint URL
     description: Leave it empty if you want to use AWS S3 service. Otherwise set it to the endpoint that others S3-compatible services offers (for example DigitalOcean, Backblaze, Wasabi or Cloudflare). Be aware that the URL should start with "https://"
+  debug_mode:
+    name: Debug mode
+    description: Enable this option if you want to get more details in the logs of the execution of this add-on.

@@ -1,6 +1,6 @@
 {
   "name": "Sync Backups on Amazon S3",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "slug": "sync-backups-on-s3",
   "description": "Sync backups to your Amazon S3 bucket",
   "url": "https://github.com/dral3x/ha-addons/tree/main/sync-backups-s3",
@@ -17,7 +17,8 @@
     "bucket_folder": "/",
     "delete_if_missing": false,
     "storage_class": "STANDARD_IA",
-    "endpoint_url": ""
+    "endpoint_url": "",
+    "debug_mode": false
   },
   "schema": {
     "aws_key_id": "password",
@@ -26,7 +27,8 @@
     "bucket_folder": "str",
     "delete_if_missing": "bool",
     "storage_class": "list(STANDARD|REDUCED_REDUNDANCY|STANDARD_IA|ONEZONE_IA|INTELLIGENT_TIERING|GLACIER|DEEP_ARCHIVE|GLACIER_IR)",
-    "endpoint_url": "str?"
+    "endpoint_url": "str?",
+    "debug_mode": "bool"
   },
   "map": ["backup:rw"]
 }
